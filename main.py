@@ -17,11 +17,15 @@ def initialise():
     print("Authorising MusicBrainz credentials...")
     musicbrainzngs.auth(musicBrainzUsername, musicBrainzPassword)
 
+def searchArtist(query, limit):
+    return musicbrainzngs.search_artists(query=query, limit=limit)
+
 def main():
     initialise()
-    test = musicbrainzngs.search_artists(query="King Crimson")
-    print(test['artist-list'][0]['id'])
-    print(test['artist-list'][0]['name'])
+    while True:
+        artists = searchArtist(input("Please enter artist name: "), 5)
+        for artist in artists['artist-list']:
+            print(f"{artist['name']} - {artist['type']} from {artist['area']['name']}.")
 
 if __name__ == '__main__':
     main()

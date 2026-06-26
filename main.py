@@ -28,7 +28,7 @@ def main():
     unisongDatabase = sqlite3.connect("unisong.db")
     unisongCursor = unisongDatabase.cursor()
     createAlbumTableQuery = """
-    CREATE TABLE albums (
+    CREATE TABLE IF NOT EXISTS albums (
         id INTEGER PRIMARY KEY,
         name TEXT NOT NULL,
         artist TEXT NOT NULL,

@@ -20,8 +20,8 @@ def initialise():
     print("Authorising MusicBrainz credentials...")
     musicbrainzngs.auth(musicBrainzUsername, musicBrainzPassword)
 
-def searchArtist(query, limit):
-    return musicbrainzngs.search_artists(query=query, limit=limit)
+def searchAlbum(query, limit):
+    return musicbrainzngs.search_release_groups(query=query, limit=limit, type='album')
 
 def main():
     initialise()
@@ -42,9 +42,9 @@ def main():
     unisongCursor.close()
 
 
-    artists = searchArtist(input("Please enter artist name: "), 5)
-    for artist in artists['artist-list']:
-        print(f"{artist['name']} - {artist['type']} from {artist['area']['name']}.")
+    albums = searchAlbum(input("Please enter album name: "), 5)
+    for album in albums['release-group-list']:
+        print(f"{album['title']} by {album['artist-credit']}")
 
 
 if __name__ == '__main__':

@@ -1,5 +1,8 @@
+from venv import create
+
 from dotenv import load_dotenv
 import os
+import sqlite3
 
 # For this proof-of-concept, we will use a few third party libraries in order to perform API requests.
 # For the actual programming project, API requests will all be done in-house.
@@ -22,10 +25,27 @@ def searchArtist(query, limit):
 
 def main():
     initialise()
-    while True:
-        artists = searchArtist(input("Please enter artist name: "), 5)
-        for artist in artists['artist-list']:
-            print(f"{artist['name']} - {artist['type']} from {artist['area']['name']}.")
+    unisongDatabase = sqlite3.connect("unisong.db")
+    unisongCursor = unisongDatabase.cursor()
+    createAlbumTableQuery = """
+    CREATE TABLE albums (
+        id INTEGER PRIMARY KEY,
+        name TEXT NOT NULL,
+        artist TEXT NOT NULL,
+        year INT NOT NULL,
+        description STRING NOT NULL
+        );
+    """
+
+    print("Creating Albums table...")
+    unisongCursor.execute(createAlbumTableQuery)
+    unisongCursor.close()
+
+
+    artists = searchArtist(input("Please enter artist name: "), 5)
+    for artist in artists['artist-list']:
+        print(f"{artist['name']} - {artist['type']} from {artist['area']['name']}.")
+
 
 if __name__ == '__main__':
     main()

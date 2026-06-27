@@ -1,9 +1,14 @@
 import os
+import importlib.metadata
 from dotenv import load_dotenv
 
 # For this proof-of-concept, we will use a few third party libraries in order to perform API requests.
 # For the actual programming project, API requests will all be done in-house.
 import musicbrainzngs
+
+NAME = ("unisong-proof-of-concept")
+VERSION = importlib.metadata.version(NAME)
+CONTACT = importlib.metadata.metadata(NAME).get("Author-email", "jayrickaby@pm.me")
 
 def initialiseEnvironment():
     # don't want people using my credentials
@@ -11,9 +16,9 @@ def initialiseEnvironment():
 
 def initialiseMusicBrainz():
     musicbrainzngs.set_useragent(
-        "proof of concept application",
-        "0.0.0",
-        contact="jayrickaby@pm.me"
+        NAME,
+        VERSION,
+        contact=CONTACT
     )
 
     musicbrainzngs.auth(

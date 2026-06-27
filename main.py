@@ -8,6 +8,8 @@ import sqlite3
 # For the actual programming project, API requests will all be done in-house.
 import musicbrainzngs
 
+from poc.Album import Album
+
 def initialise():
     # Load before others to properly initialise env variables
     print("Initialising environment variables...")
@@ -41,11 +43,11 @@ def main():
     unisongCursor.execute(createAlbumTableQuery)
     unisongCursor.close()
 
-
-    albums = searchAlbum(input("Please enter album name: "), 5)
-    for album in albums['release-group-list']:
-        print(f"{album['title']} by {album['artist-credit']}")
-
+    albums = []
+    albumsData = searchAlbum(input("Please enter album name: "), 5)
+    for albumData in albumsData['release-group-list']:
+        album = Album(albumData)
+        print(f"{album.title} by {album.artists}")
 
 if __name__ == '__main__':
     main()

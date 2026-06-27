@@ -1,28 +1,12 @@
-from venv import create
-
-from dotenv import load_dotenv
-import os
 import sqlite3
-
-# For this proof-of-concept, we will use a few third party libraries in order to perform API requests.
-# For the actual programming project, API requests will all be done in-house.
-import musicbrainzngs
-
+from config import *
+from db import *
 from poc.Album import Album
 
 def initialise():
-    # Load before others to properly initialise env variables
-    print("Initialising environment variables...")
-    load_dotenv()
-    musicBrainzUsername = os.getenv("MUSICBRAINZ_USERNAME")
-    musicBrainzPassword = os.getenv("MUSICBRAINZ_PASSWORD")
+    initialiseEnvironment()
+    initialiseMusicBrainz()
 
-    print("Setting MusicBrainz useragent...")
-    musicbrainzngs.set_useragent("proof of concept application", "0.0.0", contact="jayrickaby@pm.me")
-    print("Authorising MusicBrainz credentials...")
-    musicbrainzngs.auth(musicBrainzUsername, musicBrainzPassword)
-
-    print("Creating database tables...")
     createAlbumTable()
 
 def searchAlbum(query, limit):

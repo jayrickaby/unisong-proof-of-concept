@@ -30,7 +30,7 @@ def main():
     createAlbumTableQuery = """
     CREATE TABLE IF NOT EXISTS albums (
         id INTEGER PRIMARY KEY,
-        name TEXT NOT NULL,
+        title TEXT NOT NULL,
         artist TEXT NOT NULL,
         year INT NOT NULL,
         description STRING NOT NULL

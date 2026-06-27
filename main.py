@@ -1,6 +1,7 @@
 import sqlite3
 from config import *
 from db import *
+from musicbrainz import *
 from poc.Album import Album
 
 def initialise():
@@ -8,9 +9,6 @@ def initialise():
     initialiseMusicBrainz()
 
     createAlbumTable()
-
-def searchAlbum(query, limit):
-    return musicbrainzngs.search_release_groups(query=query, limit=limit, type='album')
 
 def main():
     initialise()

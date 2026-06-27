@@ -3,8 +3,11 @@ import os
 import mutagen
 import glob
 
+from poc.Album import Album
+
 EXTENSIONS = ["**/*.flac", "**/*.wav", "**/*.mp3"]
 
+albums = {}
 files = []
 
 def searchForAlbums(path):
@@ -17,4 +20,12 @@ def searchForAlbums(path):
 def createAlbumsFromFiles():
     for file in files:
         data = mutagen.File(file)
-        print(data["title"])
+
+        album = Album()
+        album.parseLocalTrack(data)
+
+        if album.title not in albums:
+            albums[album.title] = album
+
+def getLocalAlbums():
+    return albums

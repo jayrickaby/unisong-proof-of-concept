@@ -14,4 +14,7 @@ def searchForAlbums(path):
         for file in foundFiles:
             files.append(os.path.join(path, file))
 
-    print(files)
+def createAlbumsFromFiles():
+    for file in files:
+        data = mutagen.File(file)
+        print(data["title"])

@@ -3,6 +3,8 @@ import glob
 
 EXTENSIONS = ["**/*.flac", "**/*.wav", "**/*.mp3"]
 
+files = []
+
 def searchForAlbums(path):
     files = []
     for extension in EXTENSIONS:

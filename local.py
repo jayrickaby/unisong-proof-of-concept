@@ -24,7 +24,8 @@ def createAlbumsFromFiles():
         album = Album()
         album.parseLocalTrack(data)
 
-        if album.title not in albums:
+        if album.title not in albums and album.title != "":
+            print(f"Found: '{album.title}'")
             albums[album.title] = album
 
 def getLocalAlbums():

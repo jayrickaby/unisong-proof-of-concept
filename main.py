@@ -17,9 +17,6 @@ def main():
     searchForAlbums(input("Look for files: "))
     createAlbumsFromFiles()
 
-    for album in getLocalAlbums():
-        print(album)
-
     # albums = []
     # albumsData = searchAlbum(input("Please enter album name: "), 5)
     # for albumData in albumsData['release-group-list']:

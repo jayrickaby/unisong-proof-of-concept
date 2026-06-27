@@ -6,9 +6,14 @@ class Album:
         self.description = ""
 
     def parseLocalTrack(self, data):
-        self.title = data["album"][0]
-        self.artists = data["artist"]
-        self.year = data["date"]
+        if data["album"][0]:
+            self.title = data["album"][0]
+
+        if data["artist"]:
+            self.artists = data["artist"]
+
+        if data["date"]:
+            self.year = data["date"]
 
     #     self.__parseData(data)
     #

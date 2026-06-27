@@ -1,0 +1,7 @@
+[project]
+name = "Unisong Proof-of-Concept"
+version = "0.0.0"
+description = "Proof-of-concept for my Computer Science Programming Project Proposal"
+authors = [
+    { name = "Jay Rickaby", email = "jayrickaby@pm.me"}
+]

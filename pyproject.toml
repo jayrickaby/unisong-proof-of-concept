@@ -5,3 +5,8 @@ description = "Proof-of-concept for my Computer Science Programming Project Prop
 authors = [
     { name = "Jay Rickaby", email = "jayrickaby@pm.me"}
 ]
+dependencies = [
+    "musicbrainzngs",
+    "mutagen",
+    "python-dotenv"
+]

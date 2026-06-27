@@ -22,32 +22,49 @@ def initialise():
     print("Authorising MusicBrainz credentials...")
     musicbrainzngs.auth(musicBrainzUsername, musicBrainzPassword)
 
+    print("Creating database tables...")
+    createAlbumTable()
+
 def searchAlbum(query, limit):
     return musicbrainzngs.search_release_groups(query=query, limit=limit, type='album')
 
-def main():
-    initialise()
-    unisongDatabase = sqlite3.connect("unisong.db")
-    unisongCursor = unisongDatabase.cursor()
-    createAlbumTableQuery = """
-    CREATE TABLE IF NOT EXISTS albums (
-        id INTEGER PRIMARY KEY,
-        title TEXT NOT NULL,
-        artist TEXT NOT NULL,
-        year INT NOT NULL,
-        description STRING NOT NULL
-        );
+def createAlbumTable():
+    db = sqlite3.connect("unisong.db")
+    cursor = db.cursor()
+    q = """
+        CREATE TABLE IF NOT EXISTS albums (
+            id INTEGER PRIMARY KEY,
+            title TEXT NOT NULL,
+            artist TEXT NOT NULL,
+            year INT NOT NULL,
+            description STRING NOT NULL
+            ); 
+        """
+    cursor.execute(q)
+    cursor.close()
+
+def addAlbum(newAlbum):
+    db = sqlite3.connect("unisong.db")
+    cursor = db.cursor()
+
+    q = f"""
+        INSERT INTO albums (title, artist, year, description) VALUES (?, ?, ?, ?)
     """
 
-    print("Creating Albums table...")
-    unisongCursor.execute(createAlbumTableQuery)
-    unisongCursor.close()
+    cursor.execute(q, (newAlbum.title, newAlbum.artists[0], 0, "the best"))
+    db.commit()
+    cursor.close()
+
+
+def main():
+    initialise()
 
     albums = []
     albumsData = searchAlbum(input("Please enter album name: "), 5)
     for albumData in albumsData['release-group-list']:
         album = Album(albumData)
         print(f"{album.title} by {album.artists}")
+        addAlbum(album)
 
 if __name__ == '__main__':
     main()

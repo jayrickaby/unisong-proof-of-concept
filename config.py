@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import musicbrainzngs
 
 def initialiseEnvironment():
+    # don't want people using my credentials
     load_dotenv()
 
 def initialiseMusicBrainz():

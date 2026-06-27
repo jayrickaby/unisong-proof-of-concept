@@ -14,6 +14,7 @@ def searchForAlbums(path):
     for extension in EXTENSIONS:
         foundFiles = glob.glob(extension, root_dir=path, recursive=True)
 
+        # needed for mutagen extraction
         for file in foundFiles:
             files.append(os.path.join(path, file))
 
@@ -24,6 +25,7 @@ def createAlbumsFromFiles():
         album = Album()
         album.parseLocalTrack(data)
 
+        # avoid duplicates
         if album.title not in albums and album.title != "":
             print(f"Found: '{album.title}'")
             albums[album.title] = album

@@ -6,6 +6,7 @@ class Album:
         self.description = ""
 
     def parseLocalTrack(self, data):
+        # use .get() as it returns 'None' if invalid
         if data.get("album"):
             self.title = data["album"][0]
 

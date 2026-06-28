@@ -7,6 +7,7 @@ class LocalTrack:
         # Extra stuff to help album / release cataloging
         self.title = ""
         self.artists = []
+        self.release = ""
         self.year = ""
         self.release = ""
 
@@ -23,3 +24,9 @@ class LocalTrack:
 
         if data.get("year"):
             self.year = data["year"][0]
+
+    def setPath(self, path):
+        self.path = path
+
+    def setMBID(self, trackMBID):
+        self.trackMBID = trackMBID

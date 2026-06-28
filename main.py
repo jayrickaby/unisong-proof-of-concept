@@ -19,7 +19,7 @@ def main():
 
     albums = getLocalAlbums()
 
-    print(getIdFromAlbum(albums['Atom Heart Mother (2011 Remaster)']))
+    getIdFromAlbum(albums['Atom Heart Mother (2011 Remaster)'])
 
 
     # albums = []

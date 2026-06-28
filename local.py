@@ -1,38 +1,61 @@
+import glob
+import mutagen
 import os
 
-import mutagen
-import glob
-
-from poc.Album import Album
+from musicbrainz import *
+from poc.LocalAlbum import LocalRelease
+from poc.LocalTrack import LocalTrack
 
 EXTENSIONS = ["**/*.flac", "**/*.wav", "**/*.mp3"]
 
-albums = {}
-files = []
+localReleases = {}
+localTracks = {}
 
-def processAllLocalEntities(path):
-    searchForAlbums(path)
-    createAlbumsFromFiles()
+def processLocalEntities(path):
+    searchForLocalTracks(path)
+    extrapolateLocalReleases()
 
-def searchForAlbums(path):
+def searchForLocalTracks(path):
     for extension in EXTENSIONS:
         foundFiles = glob.glob(extension, root_dir=path, recursive=True)
 
-        # needed for mutagen extraction
+        # early return if no files found
+        if len(foundFiles) < 0:
+            return
+
         for file in foundFiles:
-            files.append(os.path.join(path, file))
+            # needed for mutagen extraction
+            fullPath = os.path.join(path, file)
 
-def createAlbumsFromFiles():
-    for file in files:
-        data = mutagen.File(file)
+            data = mutagen.File(fullPath)
 
-        album = Album()
-        album.parseLocalTrack(data)
+            track = LocalTrack()
+            track.parseLocalTrack(data)
+            track.setPath(fullPath)
 
-        # avoid duplicates
-        if album.title not in albums and album.title != "":
-            print(f"Found: '{album.title}'")
-            albums[album.title] = album
+            localTracks[fullPath] = track
 
-def getLocalAlbums():
-    return albums
+def extrapolateLocalReleases():
+    for path in localTracks:
+        # early return to avoid null or duplicates/overrides
+        track = localTracks[path]
+
+        if track.release == "":
+            return
+
+        if track.release in localReleases:
+            localReleases[track.release].tracks.append(path)
+
+        localRelease = LocalRelease()
+        localRelease.parseLocalTrack(track)
+
+        localReleases[track.release] = localRelease
+
+
+
+
+
+
+
+
+

@@ -1,7 +1,6 @@
 import sqlite3
 from config import *
 from local import *
-from musicbrainz import *
 from poc.Album import Album
 
 def initialise():

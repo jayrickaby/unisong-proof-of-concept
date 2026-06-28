@@ -1,12 +1,14 @@
 [project]
 name = "unisong-proof-of-concept"
-version = "0.0.0"
+version = "0.1.0"
 description = "Proof-of-concept for my Computer Science Programming Project Proposal"
 authors = [
-    { name = "Jay Rickaby", email = "jayrickaby@pm.me"}
+    {name = "Jay Rickaby",email = "jayrickaby@pm.me"}
 ]
+license = "MIT License"
+requires-python = ">=3.13"
 dependencies = [
-    "musicbrainzngs",
-    "mutagen",
-    "python-dotenv"
+    "mutagen (>=1.48.1,<2.0.0)",
+    "musicbrainzngs (>=0.7.1,<0.8.0)",
+    "python-dotenv (>=1.2.2,<2.0.0)"
 ]

@@ -1,5 +1,6 @@
 class Album:
     def __init__(self):
+        self.releaseGroupMBID = ""
         self.title = ""
         self.artists = []
         self.year = 0

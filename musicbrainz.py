@@ -16,7 +16,7 @@ def getIdFromAlbum(album):
         result = musicbrainzngs.search_release_groups(query=pureTitle, artistname=album.artists[0] ,limit=DEFAULT_LIMIT, type='album')
 
     else:
-        result = result = musicbrainzngs.search_release_groups(query=pureTitle, limit=DEFAULT_LIMIT, type='album')
+        result = musicbrainzngs.search_release_groups(query=pureTitle, limit=DEFAULT_LIMIT, type='album')
 
     data = result['release-group-list']
 

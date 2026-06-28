@@ -7,15 +7,20 @@ from poc.Album import Album
 
 def initialise():
     initialiseEnvironment()
-    # initialiseMusicBrainz()
+    initialiseMusicBrainz()
 
-    # createAlbumTable()
+    createAlbumTable()
 
 def main():
     initialise()
 
     searchForAlbums(input("Look for files: "))
     createAlbumsFromFiles()
+
+    albums = getLocalAlbums()
+
+    print(getIdFromAlbum(albums['Atom Heart Mother (2011 Remaster)']))
+
 
     # albums = []
     # albumsData = searchAlbum(input("Please enter album name: "), 5)

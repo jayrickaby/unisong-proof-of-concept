@@ -6,7 +6,7 @@ CENTRAL_DB = "unisong.db"
 def createUnisongAlbumTable():
     db = sqlite3.connect(CENTRAL_DB)
     q = """
-        CREATE TABLE IF NOT EXISTS albums (
+        CREATE TABLE IF NOT EXISTS unisongAlbums (
             id INTEGER PRIMARY KEY,
             releaseGroupMBID TEXT NOT NULL,
             title TEXT NOT NULL,
@@ -18,16 +18,39 @@ def createUnisongAlbumTable():
     db.execute(q)
     db.close()
 
-def
+def createUnisongReleasesTable():
+    db = sqlite3.connect(CENTRAL_DB)
+    q = """
+        CREATE TABLE IF NOT EXISTS unisongReleases (
+            id INTEGER PRIMARY KEY,
+            releaseMBID TEXT NOT NULL,
+            releaseGroupMBID TEXT NOT NULL,
+            disambiguation TEXT
+            ); 
+        """
+    db.execute(q)
+    db.close()
 
-def addAlbum(newAlbum):
+def addUnisongAlbum(newAlbum):
     db = sqlite3.connect(CENTRAL_DB)
     cursor = db.cursor()
 
     q = """
-        INSERT INTO albums (releaseGroupMBID, title, artist, year, description) VALUES (?, ?, ?, ?, ?);
+        INSERT INTO unisongAlbums (releaseGroupMBID, title, artist, year, description) VALUES (?, ?, ?, ?, ?);
     """
 
     cursor.execute(q,(newAlbum.releaseGroupMBID, newAlbum.title, newAlbum.artists[0], newAlbum.year, ""))
+    db.commit()
+    cursor.close()
+
+def addUnisongRelease(unisongRelease):
+    db = sqlite3.connect(CENTRAL_DB)
+    cursor = db.cursor()
+
+    q = """
+        INSERT INTO unisongReleases (releaseMBID, releaseGroupMBID, disambiguation) VALUES (?, ?, ?);
+    """
+
+    cursor.execute(q,(unisongRelease.releaseMBID, unisongRelease.releaseGroupMBID, unisongRelease.disambiguation))
     db.commit()
     cursor.close()

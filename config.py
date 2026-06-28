@@ -1,5 +1,6 @@
 import os
 import importlib.metadata
+from db import *
 from dotenv import load_dotenv
 
 # For this proof-of-concept, we will use a few third party libraries in order to perform API requests.
@@ -25,3 +26,7 @@ def initialiseMusicBrainz():
         os.getenv("MUSICBRAINZ_USERNAME"),
         os.getenv("MUSICBRAINZ_PASSWORD")
     )
+
+def initialiseDatabase():
+    createUnisongAlbumTable()
+    createUnisongReleasesTable()

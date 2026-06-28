@@ -1,6 +1,5 @@
 import sqlite3
 from config import *
-from db import *
 from local import *
 from musicbrainz import *
 from poc.Album import Album
@@ -8,18 +7,17 @@ from poc.Album import Album
 def initialise():
     initialiseEnvironment()
     initialiseMusicBrainz()
-
-    createAlbumTable()
+    initialiseDatabase()
 
 def main():
     initialise()
-
-    searchForAlbums(input("Look for files: "))
-    createAlbumsFromFiles()
-
-    albums = getLocalAlbums()
-
-    getIdFromAlbum(albums['Atom Heart Mother (2011 Remaster)'])
+    #
+    # searchForAlbums(input("Look for files: "))
+    # createAlbumsFromFiles()
+    #
+    # albums = getLocalAlbums()
+    #
+    # getIdFromAlbum(albums['Atom Heart Mother (2011 Remaster)'])
 
 
     # albums = []

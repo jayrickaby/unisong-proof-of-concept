@@ -10,6 +10,10 @@ EXTENSIONS = ["**/*.flac", "**/*.wav", "**/*.mp3"]
 albums = {}
 files = []
 
+def processAllLocalEntities(path):
+    searchForAlbums(path)
+    createAlbumsFromFiles()
+
 def searchForAlbums(path):
     for extension in EXTENSIONS:
         foundFiles = glob.glob(extension, root_dir=path, recursive=True)

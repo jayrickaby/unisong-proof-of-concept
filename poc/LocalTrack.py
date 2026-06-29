@@ -11,7 +11,7 @@ class LocalTrack:
         self.title = ""
         self.artists = []
         self.release = ""
-        self.year = ""
+        self.year = None
         self.release = ""
 
     def parseLocalTrack(self, path):
@@ -39,7 +39,7 @@ class LocalTrack:
             print("No artist tag!")
 
         try:
-            self.year = data["year"][0]
+            self.year = data["date"][0]
         except KeyError:
             print("No year tag!")
 

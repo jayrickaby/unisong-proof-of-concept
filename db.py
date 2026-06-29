@@ -1,7 +1,6 @@
 import sqlite3
 
 CENTRAL_DB = "unisong.db"
-# LOCAL_DB = "local.db" ... for later
 
 def createUnisongAlbumTable():
     db = sqlite3.connect(CENTRAL_DB)
@@ -24,7 +23,12 @@ def createUnisongReleasesTable():
         CREATE TABLE IF NOT EXISTS unisongReleases (
             id INTEGER PRIMARY KEY,
             releaseMBID TEXT NOT NULL,
+            
             releaseGroupMBID TEXT NOT NULL,
+            CONSTRAINT fk_ReleaseGroup
+            FOREIGN KEY(releaseGroupMBID) 
+            REFERENCES unisongAlbums(releaseGroupMBID),
+            
             disambiguation TEXT
             ); 
         """

@@ -1,4 +1,5 @@
-_all__ = ["LocalAlbum", "LocalRelease", "LocalTrack"]
+_all__ = ["Album", "LocalRelease", "LocalTrack"]
 
+from . import Album
 from . import LocalRelease
 from . import LocalTrack

@@ -2,11 +2,13 @@ import glob
 import os
 
 from musicbrainz import *
-from poc.LocalRelease import LocalRelease
-from poc.LocalTrack import LocalTrack
+from poc.Album import *
+from poc.LocalRelease import *
+from poc.LocalTrack import *
 
 EXTENSIONS = ["**/*.flac", "**/*.wav", "**/*.mp3"]
 
+albums = {}
 localReleases = {}
 localTracks = {}
 
@@ -14,6 +16,9 @@ def processLocalEntities(path):
     searchForLocalTracks(path)
     extrapolateLocalReleases()
     lookupLocalReleasesMBID()
+    extrapolateAlbums()
+
+
 
 # find tracks, get metadata and store into a LocalTrack
 def searchForLocalTracks(path):
@@ -68,10 +73,21 @@ def extrapolateLocalReleases():
 
 def lookupLocalReleasesMBID():
     for release in localReleases:
+        localData = localReleases[release]
+        mbData = getReleaseDataFromLocalRelease(localData)
+
+        localReleases[release].releaseMBID = mbData['id']
+        localReleases[release].releaseGroupMBID = mbData['release-group']['id']
+
+def extrapolateAlbums():
+    for release in localReleases:
         releaseData = localReleases[release]
-        mbid = getReleaseIdFromLocalRelease(releaseData)
 
-        localReleases[release].releaseMBID = mbid
+        albumData = getAlbumDataFromLocalRelease(releaseData)
 
+        album = Album()
+        album.parseMusicBrainzData(albumData)
+        album.addLocalRelease(release)
 
-
+        if not albums[album.title]:
+            albums[album.title] = album

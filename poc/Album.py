@@ -3,27 +3,18 @@ class Album:
         self.releaseGroupMBID = ""
         self.title = ""
         self.artists = []
-        self.year = 0
+        self.date = None
         self.description = ""
 
-    def parseLocalTrack(self, data):
-        # use .get() as it returns 'None' if invalid
-        if data.get("album"):
-            self.title = data["album"][0]
+        self.releases = [] # stores keys for localReleases
 
-        if data.get("artist"):
-            self.artists = data["artist"]
+    def parseMusicBrainzData(self, data):
+        self.releaseGroupMBID = data["id"]
+        self.title = data["title"]
+        self.date = data["first-release-date"]
 
-        if data.get("date"):
-            self.year = data["date"][0]
+        for artist in data["artist-credit"]:
+            self.artists.append(artist['artist']['name'])
 
-    #     self.__parseData(data)
-    #
-    # # Relative to <release-group>
-    # def __parseData(self, data):
-    #     self.title = data['title']
-    #
-    #     for artist in data['artist-credit']:
-    #         if isinstance(artist, dict):
-    #             self.artists.append(artist['name'])
-    #
+    def addLocalRelease(self, title: str):
+        self.releases.append(title)

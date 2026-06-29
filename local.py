@@ -1,9 +1,8 @@
 import glob
-import mutagen
 import os
 
 from musicbrainz import *
-from poc.LocalAlbum import LocalRelease
+from poc.LocalRelease import LocalRelease
 from poc.LocalTrack import LocalTrack
 
 EXTENSIONS = ["**/*.flac", "**/*.wav", "**/*.mp3"]
@@ -15,41 +14,63 @@ def processLocalEntities(path):
     searchForLocalTracks(path)
     extrapolateLocalReleases()
 
+# find tracks, get metadata and store into a LocalTrack
 def searchForLocalTracks(path):
+    absolutePath = os.path.abspath(path)
+    absolutePath = absolutePath.strip()
+
+    print(f"Looking for files in: {absolutePath}")
+
+    foundFiles = []
+
     for extension in EXTENSIONS:
-        foundFiles = glob.glob(extension, root_dir=path, recursive=True)
+        foundFiles.extend(glob.glob(extension, root_dir=absolutePath, recursive=True))
 
-        # early return if no files found
-        if len(foundFiles) < 0:
-            return
+    # early return if no files found
+    if len(foundFiles) == 0:
+        print("No files found!")
+        return
 
-        for file in foundFiles:
-            # needed for mutagen extraction
-            fullPath = os.path.join(path, file)
+    for file in foundFiles:
+        # needed for mutagen extraction
+        fullPath = os.path.join(absolutePath, file)
+        print("Found: " + file)
 
-            data = mutagen.File(fullPath)
+        track = LocalTrack()
+        track.parseLocalTrack(fullPath)
 
-            track = LocalTrack()
-            track.parseLocalTrack(data)
-            track.setPath(fullPath)
+        localTracks[fullPath] = track
 
-            localTracks[fullPath] = track
-
+# from Local tracks, create releases
 def extrapolateLocalReleases():
     for path in localTracks:
-        # early return to avoid null or duplicates/overrides
+        print(f"Extrapolating from {path}")
+
         track = localTracks[path]
 
+        # early return to avoid null or duplicates/overrides
         if track.release == "":
-            return
+            continue
 
         if track.release in localReleases:
+            print(f"Adding {path} to existing {track.release}")
             localReleases[track.release].tracks.append(path)
+            continue
 
         localRelease = LocalRelease()
         localRelease.parseLocalTrack(track)
-
+        print(f"Creating {localRelease.title}")
         localReleases[track.release] = localRelease
+
+        print(f"Adding {path} to new {track.release}")
+        localReleases[track.release].tracks.append(path)
+
+    for release in localReleases:
+        releaseData = localReleases[release]
+
+        print(releaseData.title)
+        for track in releaseData.tracks:
+            print(track)
 
 
 

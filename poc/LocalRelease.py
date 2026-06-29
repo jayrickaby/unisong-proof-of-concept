@@ -1,5 +1,5 @@
-class unisongRelease:
-    def __init__(self, data):
+class LocalRelease:
+    def __init__(self):
         # Raw db stuff
         self.releaseMBID = ""
 

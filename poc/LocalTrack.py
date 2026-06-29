@@ -1,3 +1,6 @@
+from pathlib import Path
+from mutagen.easyid3 import EasyID3
+
 class LocalTrack:
     def __init__(self):
         # Required db fields
@@ -11,21 +14,35 @@ class LocalTrack:
         self.year = ""
         self.release = ""
 
-    def parseLocalTrack(self, data):
-        # use .get() as it returns 'None' if invalid
-        if data.get("title"):
+    def parseLocalTrack(self, path):
+        print(path)
+
+        data = EasyID3(path)
+
+        print(data)
+
+        try:
             self.title = data["title"][0]
+        except KeyError:
+            print("No title tag, using file name!")
+            self.title = Path(path).stem
 
-        if data.get("album"):
+        try:
             self.release = data["album"][0]
+        except KeyError:
+            print("No album tag!")
+            return                  # early return as whats the point
 
-        if data.get("artist"):
+        try:
             self.artists = data["artist"][0]
+        except KeyError:
+            print("No artist tag!")
 
-        if data.get("year"):
+        try:
             self.year = data["year"][0]
+        except KeyError:
+            print("No year tag!")
 
-    def setPath(self, path):
         self.path = path
 
     def setMBID(self, trackMBID):

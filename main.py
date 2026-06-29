@@ -4,14 +4,14 @@ from local import *
 from poc.Album import Album
 
 def initialise():
+    print("Initialising...")
     initialiseEnvironment()
     initialiseMusicBrainz()
     initialiseDatabase()
 
 def main():
     initialise()
-    #
-    # searchForAlbums(input("Look for files: "))
+    processLocalEntities(input("Look for files: "))
     # createAlbumsFromFiles()
     #
     # albums = getLocalAlbums()

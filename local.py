@@ -65,15 +65,6 @@ def extrapolateLocalReleases():
         print(f"Adding {path} to new {track.release}")
         localReleases[track.release].tracks.append(path)
 
-    for release in localReleases:
-        releaseData = localReleases[release]
-
-        print(releaseData.title)
-        for track in releaseData.tracks:
-            print(track)
-
-
-
 
 
 

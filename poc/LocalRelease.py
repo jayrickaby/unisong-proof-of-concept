@@ -6,8 +6,9 @@ class LocalRelease:
         # Extras
         self.title = ""
         self.artists = []
-        self.year = ""
+        self.year = None
         self.disambiguation = ""
+        self.releaseMBID = ""
         self.releaseGroupMBID = ""
 
         # path to access localtrack dict

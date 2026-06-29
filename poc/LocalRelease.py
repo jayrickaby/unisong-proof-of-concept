@@ -4,6 +4,7 @@ class LocalRelease:
         self.releaseMBID = ""
 
         # Extras
+        self.fullTitle = ""
         self.title = ""
         self.artists = []
         self.year = None

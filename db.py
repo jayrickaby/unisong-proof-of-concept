@@ -1,4 +1,5 @@
 import sqlite3
+from poc.Album import Album
 
 CENTRAL_DB = "unisong.db"
 
@@ -10,7 +11,7 @@ def createUnisongAlbumTable():
             releaseGroupMBID TEXT NOT NULL,
             title TEXT NOT NULL,
             artist TEXT NOT NULL,
-            year INTEGER NOT NULL,
+            date TEXT NOT NULL,
             description TEXT NOT NULL
             ); 
         """
@@ -35,15 +36,15 @@ def createUnisongReleasesTable():
     db.execute(q)
     db.close()
 
-def addUnisongAlbum(newAlbum):
+def addUnisongAlbum(newAlbum: Album):
     db = sqlite3.connect(CENTRAL_DB)
     cursor = db.cursor()
 
     q = """
-        INSERT INTO unisongAlbums (releaseGroupMBID, title, artist, year, description) VALUES (?, ?, ?, ?, ?);
+        INSERT INTO unisongAlbums (releaseGroupMBID, title, artist, date, description) VALUES (?, ?, ?, ?, ?);
     """
 
-    cursor.execute(q,(newAlbum.releaseGroupMBID, newAlbum.title, newAlbum.artists[0], newAlbum.year, ""))
+    cursor.execute(q,(newAlbum.releaseGroupMBID, newAlbum.title, newAlbum.artists[0], newAlbum.date, ""))
     db.commit()
     cursor.close()
 

@@ -13,6 +13,7 @@ localTracks = {}
 def processLocalEntities(path):
     searchForLocalTracks(path)
     extrapolateLocalReleases()
+    lookupLocalReleasesMBID()
 
 # find tracks, get metadata and store into a LocalTrack
 def searchForLocalTracks(path):
@@ -65,9 +66,12 @@ def extrapolateLocalReleases():
         print(f"Adding {path} to new {track.release}")
         localReleases[track.release].tracks.append(path)
 
+def lookupLocalReleasesMBID():
+    for release in localReleases:
+        releaseData = localReleases[release]
+        mbid = getReleaseIdFromLocalRelease(releaseData)
 
-
-
+        localReleases[release].releaseMBID = mbid
 
 
 

@@ -7,9 +7,9 @@ from dotenv import load_dotenv
 # For the actual programming project, API requests will all be done in-house.
 import musicbrainzngs
 
-NAME = ("unisong-proof-of-concept")
-VERSION = importlib.metadata.version(NAME)
-CONTACT = importlib.metadata.metadata(NAME).get("Author-email", "jayrickaby@pm.me")
+NAME = "unisong-proof-of-concept"
+VERSION = "0.1.0"
+CONTACT = "jayrickaby@pm.me"
 
 def initialiseEnvironment():
     # don't want people using my credentials

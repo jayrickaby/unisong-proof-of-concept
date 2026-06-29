@@ -9,12 +9,24 @@ from poc.LocalTrack import *
 EXTENSIONS = ["**/*.flac", "**/*.wav", "**/*.mp3"]
 
 albums = {}
-localReleases = {}
-localTracks = {}
 
 def processLocalEntities(path):
-    searchForLocalTracks(path)
-    extrapolateLocalReleases()
+    localTracks = searchForLocalTracks(path)
+
+    if localTracks is None or localTracks == {}:
+        return
+
+    localReleases = {}
+
+    for track in localTracks:
+        localRelease = extrapolateLocalRelease(track)
+
+        if localRelease.fullTitle in localReleases:
+            localReleases[localRelease.fullTitle]
+            continue
+
+
+
     lookupLocalReleasesMBID()
     extrapolateAlbums()
 
@@ -35,7 +47,9 @@ def searchForLocalTracks(path):
     # early return if no files found
     if len(foundFiles) == 0:
         print("No files found!")
-        return
+        return None
+
+    tracks = {}
 
     for file in foundFiles:
         # needed for mutagen extraction
@@ -45,31 +59,33 @@ def searchForLocalTracks(path):
         track = LocalTrack()
         track.parseLocalTrack(fullPath)
 
-        localTracks[fullPath] = track
+        tracks[fullPath] = track
+
+    return tracks
 
 # from Local tracks, create releases
-def extrapolateLocalReleases():
-    for path in localTracks:
-        print(f"Extrapolating from {path}")
+def extrapolateLocalRelease(track: LocalTrack):
+    print(f"Extrapolating from {track.path}")
 
-        track = localTracks[path]
+    localRelease = {}
 
-        # early return to avoid null or duplicates/overrides
-        if track.release == "":
-            continue
+    # early return to avoid null or duplicates/overrides
+    if track.release == "":
+        return
 
-        if track.release in localReleases:
-            print(f"Adding {path} to existing {track.release}")
-            localReleases[track.release].tracks.append(path)
-            continue
+    # Avoid duplicate releases
+    if track.release in localReleases:
+        print(f"Adding {track.path} to existing {track.release}")
+        localReleases[track.release].tracks.append(track.path)
+        return
 
-        localRelease = LocalRelease()
-        localRelease.parseLocalTrack(track)
-        print(f"Creating {localRelease.title}")
-        localReleases[track.release] = localRelease
+    localRelease = LocalRelease()
+    localRelease.parseLocalTrack(track)
+    print(f"Creating {localRelease.title}")
+    localReleases[track.release] = localRelease
 
-        print(f"Adding {path} to new {track.release}")
-        localReleases[track.release].tracks.append(path)
+    print(f"Adding {track.path} to new {track.release}")
+    localReleases[track.release].tracks.append(track.path)
 
 def lookupLocalReleasesMBID():
     for release in localReleases:
@@ -91,3 +107,4 @@ def extrapolateAlbums():
 
         if not albums[album.title]:
             albums[album.title] = album
+
